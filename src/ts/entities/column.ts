@@ -48,7 +48,7 @@ export class Column implements ColumnGroupChild, OriginalColumnGroupChild, IEven
     public static EVENT_PIVOT_CHANGED = 'columnPivotChanged';
     // + toolpanel, for gui updates
     public static EVENT_VALUE_CHANGED = 'columnValueChanged';
-    
+
     public static PINNED_RIGHT = 'right';
     public static PINNED_LEFT = 'left';
 
@@ -188,7 +188,7 @@ export class Column implements ColumnGroupChild, OriginalColumnGroupChild, IEven
     public isFilterAllowed(): boolean {
         return this.primary && !this.colDef.suppressFilter;
     }
-    
+
     public isFieldContainsDots(): boolean {
         return this.fieldContainsDots;
     }
@@ -273,7 +273,7 @@ export class Column implements ColumnGroupChild, OriginalColumnGroupChild, IEven
 
 
     }
-    
+
     public addEventListener(eventType: string, listener: Function): void {
         this.eventService.addEventListener(eventType, listener);
     }
@@ -425,7 +425,11 @@ export class Column implements ColumnGroupChild, OriginalColumnGroupChild, IEven
     }
 
     public getAggFunc(): string | IAggFunc {
-        return this.aggFunc;
+        if (this.colDef){
+            return this.colDef.aggFunc
+        } else {
+            return this.aggFunc;
+        }
     }
 
     public getLeft(): number {
@@ -601,14 +605,14 @@ export class Column implements ColumnGroupChild, OriginalColumnGroupChild, IEven
     public setMinimum(source: ColumnEventType = "api"): void {
         this.setActualWidth(this.minWidth, source);
     }
-    
+
     public setRowGroupActive(rowGroup: boolean, source: ColumnEventType = "api"): void {
         if (this.rowGroupActive !== rowGroup) {
             this.rowGroupActive = rowGroup;
             this.eventService.dispatchEvent(this.createColumnEvent(Column.EVENT_ROW_GROUP_CHANGED, source));
         }
     }
-    
+
     public isRowGroupActive(): boolean {
         return this.rowGroupActive;
     }
