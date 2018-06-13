@@ -297,7 +297,12 @@ var Column = (function () {
         this.aggFunc = aggFunc;
     };
     Column.prototype.getAggFunc = function () {
-        return this.aggFunc;
+        if (this.colDef) {
+            return this.colDef.aggFunc;
+        }
+        else {
+            return this.aggFunc;
+        }
     };
     Column.prototype.getLeft = function () {
         return this.left;
